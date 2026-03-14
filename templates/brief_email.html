@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ period }} Brief</title>
+</head>
+<body style="margin:0;padding:0;background:#f4f4f5;font-family:'Segoe UI',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f5;padding:32px 0;">
+    <tr>
+      <td align="center">
+        <table width="620" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+
+          <!-- Header -->
+          <tr>
+            <td style="background:#0f172a;padding:28px 36px;">
+              <p style="margin:0;color:#94a3b8;font-size:12px;text-transform:uppercase;letter-spacing:1px;">{{ date }}</p>
+              <h1 style="margin:6px 0 0;color:#ffffff;font-size:24px;font-weight:700;">{{ period }} Brief</h1>
+            </td>
+          </tr>
+
+          <!-- AI Section -->
+          <tr>
+            <td style="padding:28px 36px 0;">
+              <h2 style="margin:0 0 16px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#6366f1;border-bottom:2px solid #6366f1;padding-bottom:8px;">Artificial Intelligence</h2>
+              {% for item in ai_items %}
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;">
+                <tr>
+                  <td>
+                    <a href="{{ item.link }}" style="font-size:15px;font-weight:600;color:#0f172a;text-decoration:none;line-height:1.4;">{{ item.title }}</a>
+                    <p style="margin:4px 0 0;font-size:12px;color:#94a3b8;">{{ item.source }}</p>
+                    {% if item.summary %}
+                    <p style="margin:6px 0 0;font-size:13px;color:#475569;line-height:1.5;">{{ item.summary }}</p>
+                    {% endif %}
+                  </td>
+                </tr>
+              </table>
+              {% endfor %}
+            </td>
+          </tr>
+
+          <!-- Cybersecurity Section -->
+          <tr>
+            <td style="padding:24px 36px 0;">
+              <h2 style="margin:0 0 16px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#ef4444;border-bottom:2px solid #ef4444;padding-bottom:8px;">Cybersecurity</h2>
+              {% for item in cyber_items %}
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;">
+                <tr>
+                  <td>
+                    <a href="{{ item.link }}" style="font-size:15px;font-weight:600;color:#0f172a;text-decoration:none;line-height:1.4;">{{ item.title }}</a>
+                    <p style="margin:4px 0 0;font-size:12px;color:#94a3b8;">{{ item.source }}</p>
+                    {% if item.summary %}
+                    <p style="margin:6px 0 0;font-size:13px;color:#475569;line-height:1.5;">{{ item.summary }}</p>
+                    {% endif %}
+                  </td>
+                </tr>
+              </table>
+              {% endfor %}
+            </td>
+          </tr>
+
+          <!-- World News Section -->
+          <tr>
+            <td style="padding:24px 36px 0;">
+              <h2 style="margin:0 0 16px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#10b981;border-bottom:2px solid #10b981;padding-bottom:8px;">World News</h2>
+              {% for item in world_items %}
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;">
+                <tr>
+                  <td>
+                    <a href="{{ item.link }}" style="font-size:15px;font-weight:600;color:#0f172a;text-decoration:none;line-height:1.4;">{{ item.title }}</a>
+                    <p style="margin:4px 0 0;font-size:12px;color:#94a3b8;">{{ item.source }}</p>
+                    {% if item.summary %}
+                    <p style="margin:6px 0 0;font-size:13px;color:#475569;line-height:1.5;">{{ item.summary }}</p>
+                    {% endif %}
+                  </td>
+                </tr>
+              </table>
+              {% endfor %}
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding:28px 36px;margin-top:8px;border-top:1px solid #e2e8f0;">
+              <p style="margin:0;font-size:12px;color:#94a3b8;text-align:center;">Daily Brief &mdash; Delivered by daily-brief &bull; <a href="https://singularityai.tech" style="color:#6366f1;text-decoration:none;">singularityai.tech</a></p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

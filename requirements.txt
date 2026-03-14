@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+apscheduler
+feedparser
+msal
+httpx
+jinja2
+pytz
