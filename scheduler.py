@@ -58,5 +58,5 @@ def create_scheduler() -> BackgroundScheduler:
     scheduler = BackgroundScheduler(timezone=PT)
     scheduler.add_job(send_morning_brief, CronTrigger(hour=7, minute=0, timezone=PT))
     scheduler.add_job(send_evening_brief, CronTrigger(hour=18, minute=0, timezone=PT))
-    scheduler.add_job(send_azure_cost_brief, CronTrigger(hour=8, minute=0, timezone=PT))
+    scheduler.add_job(send_azure_cost_brief, CronTrigger(day_of_week='mon', hour=6, minute=0, timezone=PT))
     return scheduler
