@@ -1,6 +1,7 @@
 import httpx
 import datetime
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -9,16 +10,33 @@ MANAGED_IDENTITY_CLIENT_ID = "6703dd26-c811-494a-b249-3fbb34b7cc84"
 
 
 def _get_token() -> str:
-    resp = httpx.get(
-        "http://169.254.169.254/metadata/identity/oauth2/token",
-        params={
-            "api-version": "2018-02-01",
-            "resource": "https://management.azure.com/",
-            "client_id": MANAGED_IDENTITY_CLIENT_ID,
-        },
-        headers={"Metadata": "true"},
-        timeout=10,
-    )
+    identity_endpoint = os.environ.get("IDENTITY_ENDPOINT")
+    identity_header = os.environ.get("IDENTITY_HEADER")
+
+    if identity_endpoint and identity_header:
+        # Azure Container Apps managed identity endpoint
+        resp = httpx.get(
+            identity_endpoint,
+            params={
+                "api-version": "2019-08-01",
+                "resource": "https://management.azure.com/",
+                "client_id": MANAGED_IDENTITY_CLIENT_ID,
+            },
+            headers={"X-IDENTITY-HEADER": identity_header},
+            timeout=10,
+        )
+    else:
+        # Standard IMDS fallback
+        resp = httpx.get(
+            "http://169.254.169.254/metadata/identity/oauth2/token",
+            params={
+                "api-version": "2018-02-01",
+                "resource": "https://management.azure.com/",
+                "client_id": MANAGED_IDENTITY_CLIENT_ID,
+            },
+            headers={"Metadata": "true"},
+            timeout=10,
+        )
     resp.raise_for_status()
     return resp.json()["access_token"]
 
