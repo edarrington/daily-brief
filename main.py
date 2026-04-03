@@ -35,6 +35,11 @@ def trigger(period: str):
         send_azure_cost_brief()
         return {"status": "sent", "period": period}
 
+    if period == "azure-costs-last-month":
+        from scheduler import send_azure_cost_brief
+        send_azure_cost_brief(last_month=True)
+        return {"status": "sent", "period": period}
+
     if period not in ("morning", "evening"):
         return JSONResponse({"error": "period must be morning, evening, or azure-costs"}, status_code=400)
 

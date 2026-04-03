@@ -28,10 +28,10 @@ def send_evening_brief():
     send_email(TO_EMAIL, subject, html)
 
 
-def send_azure_cost_brief():
+def send_azure_cost_brief(last_month: bool = False):
     logger.info("Sending Azure cost report...")
     try:
-        rows = fetch_costs()
+        rows = fetch_costs(last_month=last_month)
     except Exception:
         logger.exception("Failed to fetch Azure costs")
         return
@@ -40,7 +40,14 @@ def send_azure_cost_brief():
     currency = rows[0]["currency"] if rows else "USD"
     today = datetime.date.today()
     date_str = today.strftime("%A, %B %d, %Y")
-    month_str = today.strftime("%B %Y")
+    if last_month:
+        first_of_this_month = today.replace(day=1)
+        report_date = first_of_this_month - datetime.timedelta(days=1)
+        month_str = report_date.strftime("%B %Y")
+        subject = f"Azure Cost Report — {month_str} (${total:.2f} total)"
+    else:
+        month_str = today.strftime("%B %Y")
+        subject = f"Azure Cost Report — {month_str} (${total:.2f} so far)"
 
     template = _jinja.get_template("azure_cost_email.html")
     html = template.render(
@@ -50,7 +57,6 @@ def send_azure_cost_brief():
         currency=currency,
         rows=rows,
     )
-    subject = f"Azure Cost Report — {month_str} (${total:.2f} so far)"
     send_email(TO_EMAIL, subject, html)
 
 

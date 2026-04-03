@@ -41,12 +41,19 @@ def _get_token() -> str:
     return resp.json()["access_token"]
 
 
-def fetch_costs() -> list[dict]:
+def fetch_costs(last_month: bool = False) -> list[dict]:
     """Returns list of {resource_group, cost, currency} sorted by cost desc."""
     token = _get_token()
     today = datetime.date.today()
-    start = today.replace(day=1).isoformat() + "T00:00:00Z"
-    end = today.isoformat() + "T23:59:59Z"
+    if last_month:
+        first_of_this_month = today.replace(day=1)
+        end_date = first_of_this_month - datetime.timedelta(days=1)
+        start_date = end_date.replace(day=1)
+    else:
+        start_date = today.replace(day=1)
+        end_date = today
+    start = start_date.isoformat() + "T00:00:00Z"
+    end = end_date.isoformat() + "T23:59:59Z"
 
     payload = {
         "type": "Usage",
